@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <title>jQuery Component</title>
+</head>
+
+<body>
+    <label>Pesquisar</label>
+    <input id="pgquim-filter" type="text" placeholder="nome, email ou contato">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">N. Contato</th>
+            </tr>
+        </thead>
+        <tbody id="pgquim-table">
+            <tr>
+                <th scope="row"><input type="checkbox" name="option[]" value="1" /></th>
+                <td>Mark</td>
+                <td>mark@gmail.com</td>
+                <td>(85)9999-8888</td>
+            </tr>
+            <tr>
+                <th scope="row"><input type="checkbox" name="option[]" value="1" /></th>
+                <td>Jacob</td>
+                <td>jacob@gmail.com</td>
+                <td>(85)98755-9999</td>
+            </tr>
+            <tr>
+                <th scope="row"><input type="checkbox" name="option[]" value="1" /></th>
+                <td>Larry</td>
+                <td>larry@gmail.com</td>
+                <td>(85)78788-9999</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-group form-check-inline mb-2">
+        <select class="form-control" id="pgquim-person-type">
+            <option value="1">Aluno</option>
+            <option value="2">Externo</option>
+        </select>      
+    </div>
+    <button id="pgquim-plus" class="btn btn-success">+</button>
+
+    <div id="pgquim-form">
+    </div>
+
+    <!-- <div id="form" class="form-inline ">
+        <div class="form-group">
+            <label class="mx-sm-3">Nome</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label class="mx-sm-3">E-mail</label>
+            <input type="email" name="email" id="email">
+        </div>
+        <div class="form-group">
+            <label class="mx-sm-3">Contato</label>
+            <input type="text" name="contato" id="contato">
+        </div> 
+        <button id="save" class="mx-sm-3 btn btn-secondary">Salvar</button>
+    </div>    
+
+    <div id="form" class="form-inline ">
+        <div class="form-group">
+            <label class="mx-sm-3">Nome</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <button id="save" class="mx-sm-3 btn btn-secondary">Salvar</button>
+    </div> -->
+
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+    <script src="jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#pgquim-filter").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#pgquim-table tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            $("#add" ).click(function() {
+                $("#table tr:last").after('<tr><th scope="row"><input type="checkbox" name="option[]" value="1" /></th><td>Larry</td><td>larry@gmail.com</td><td>(85)78788-9999</td></tr>');
+            });
+            $("#pgquim-plus").click(function() {
+                if (typeof pgquim_counter == 'undefined') {
+                    pgquim_counter = 0;
+                }
+                pgquim_counter++;                
+                let value = $("#pgquim-person-type"). children("option:selected").val();
+                if (value == 1) {
+                    $("#pgquim-form:last").after('<div style="padding:5px;" id="pgquim-item-' + pgquim_counter + '" class="form-inline"><div class="form-group"><label class="mx-sm-3">Nome (Aluno)</label><input type="text" id="name" name="name" required></div><div class="form-group"><label class="mx-sm-3">E-mail</label><input type="email" name="email" id="email" required></div><div class="form-group"><label class="mx-sm-3">Contato</label><input type="text" name="contato" id="contato" required></div> <button id="pgquim-save" itemid="' + pgquim_counter + '" class="mx-sm-3 btn btn-secondary">Salvar</button><button itemid="' + pgquim_counter + '" id="pgquim-cancel" class="btn btn-danger">-</button></div>');
+                } else if (value == 2) {
+                    $("#pgquim-form:last").after('<div style="padding:5px;" id="pgquim-item-' + pgquim_counter + '" class="form-inline "><div class="form-group"><label class="mx-sm-3">Nome (Externo)</label><input type="text" id="name" name="name" required></div><button id="pgquim-save" itemid="' + pgquim_counter + '" class="mx-sm-3 btn btn-secondary">Salvar</button><button itemid="' + pgquim_counter + '" id="pgquim-cancel" class="btn btn-danger">-</button></div></div>');
+                }
+                $("#pgquim-cancel").click(function() {
+                    $('#pgquim-item-' + this.getAttribute("itemid")).remove();
+                });
+                $("#pgquim-save").click(function(){
+                    let value = this.getAttribute("itemid");
+                    let name = $('div#pgquim-item-' + value + ' div input#name').val();
+                    let email = $('div#pgquim-item-' + value + ' div input#email').val();
+                    let number = $('div#pgquim-item-' + value + ' div input#contato').val();
+                    $("#pgquim-table tr:last").after('<tr><th scope="row"><input type="checkbox" name="option[]" value="1" /></th><td>' + name + '</td><td>' + email + '</td><td>' + number + '</td></tr>');
+                    $('#pgquim-item-' + this.getAttribute("itemid")).remove();
+                });             
+            });
+        });
+    </script>
+</body>
+
+</html>
